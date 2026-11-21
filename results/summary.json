@@ -1,0 +1,284 @@
+{
+  "n": 300,
+  "n_intents": 93,
+  "accuracy": {
+    "cur_wrong": 24,
+    "new_wrong": 41,
+    "cur_rate": 0.08,
+    "new_rate": 0.13666666666666666,
+    "new_only": 37,
+    "cur_only": 20,
+    "both": 4,
+    "p": 0.033143967787505446,
+    "delta": [
+      0.056666666666666664,
+      0.006666666666666667,
+      0.10333333333333333
+    ]
+  },
+  "severe": {
+    "cur": 12,
+    "new": 35
+  },
+  "wins": {
+    "new": 154,
+    "current": 51,
+    "tie": 95,
+    "by_reason": {
+      "new|completeness": 134,
+      "tie|equal": 91,
+      "current|accuracy": 37,
+      "new|accuracy": 20,
+      "current|completeness": 14,
+      "tie|both_wrong": 4
+    },
+    "p": 3.268419014516177e-13
+  },
+  "length": {
+    "cur": 16.53,
+    "new": 40.12,
+    "filler_share": 0.3919906945829179
+  },
+  "topics": {
+    "account": {
+      "n": 60,
+      "cur_wrong": 4,
+      "new_wrong": 4,
+      "cur_rate": 0.06666666666666667,
+      "new_rate": 0.06666666666666667
+    },
+    "orders": {
+      "n": 70,
+      "cur_wrong": 10,
+      "new_wrong": 7,
+      "cur_rate": 0.14285714285714285,
+      "new_rate": 0.1
+    },
+    "product": {
+      "n": 50,
+      "cur_wrong": 1,
+      "new_wrong": 1,
+      "cur_rate": 0.02,
+      "new_rate": 0.02
+    },
+    "refunds": {
+      "n": 60,
+      "cur_wrong": 2,
+      "new_wrong": 28,
+      "cur_rate": 0.03333333333333333,
+      "new_rate": 0.4666666666666667
+    },
+    "shipping": {
+      "n": 60,
+      "cur_wrong": 7,
+      "new_wrong": 1,
+      "cur_rate": 0.11666666666666667,
+      "new_rate": 0.016666666666666666
+    }
+  },
+  "non_refund": {
+    "n": 240,
+    "cur_wrong": 22,
+    "new_wrong": 13
+  },
+  "claims": [
+    {
+      "text": "Yes, unused gift cards can be refunded within 30 days like any other item.",
+      "cur": 1,
+      "new": 5,
+      "severity": "high",
+      "why": "Majority policy: gift cards cannot be refunded (8 vs 6 sentences). Closest call in the data; see sensitivity run."
+    },
+    {
+      "text": "Yes, since the device is faulty you are entitled to a full refund, however long ago you bought it.",
+      "cur": 0,
+      "new": 5,
+      "severity": "high",
+      "why": "Policy: no refund after 30 days; warranty repair/replacement instead."
+    },
+    {
+      "text": "Yes, we always refund the original shipping fee along with the item price.",
+      "cur": 0,
+      "new": 5,
+      "severity": "high",
+      "why": "Policy: not refunded unless faulty/wrong item."
+    },
+    {
+      "text": "Return shipping is always free.",
+      "cur": 0,
+      "new": 4,
+      "severity": "high",
+      "why": "Policy: customer pays unless faulty/wrong item."
+    },
+    {
+      "text": "We send a prepaid label for every return.",
+      "cur": 0,
+      "new": 4,
+      "severity": "high",
+      "why": "Policy: prepaid label only for faulty/wrong item."
+    },
+    {
+      "text": "No problem, activated licences can be refunded within 30 days.",
+      "cur": 1,
+      "new": 3,
+      "severity": "high",
+      "why": "Policy: licences cannot be refunded once opened or activated."
+    },
+    {
+      "text": "You can return an item for a full refund at any time, with no deadline.",
+      "cur": 0,
+      "new": 3,
+      "severity": "high",
+      "why": "Policy: 30 days from delivery."
+    },
+    {
+      "text": "Your refund will be in your account instantly, as soon as you request the return.",
+      "cur": 0,
+      "new": 3,
+      "severity": "high",
+      "why": "Policy: 5-7 business days after we receive the item."
+    },
+    {
+      "text": "All orders ship the same day they are placed.",
+      "cur": 1,
+      "new": 2,
+      "severity": "medium",
+      "why": "Policy: within 2 business days."
+    },
+    {
+      "text": "Confirmation emails can take up to 3 days to arrive.",
+      "cur": 4,
+      "new": 1,
+      "severity": "medium",
+      "why": "Policy: normally within 15 minutes."
+    },
+    {
+      "text": "We do not provide copies of customer data.",
+      "cur": 2,
+      "new": 1,
+      "severity": "critical",
+      "why": "Customers can request an export from the Privacy page; denying it is a data-rights/compliance problem."
+    },
+    {
+      "text": "Just type the new address in your profile and it changes immediately.",
+      "cur": 1,
+      "new": 1,
+      "severity": "critical",
+      "why": "Policy requires confirmation from both old and new address; skipping it enables account takeover."
+    },
+    {
+      "text": "You can cancel an order at any point, even after it has shipped, and we will recall the parcel.",
+      "cur": 1,
+      "new": 1,
+      "severity": "high",
+      "why": "Policy: cancel only before it ships."
+    },
+    {
+      "text": "Shipping is free on every order, with no minimum.",
+      "cur": 1,
+      "new": 1,
+      "severity": "high",
+      "why": "Policy: free over $50."
+    },
+    {
+      "text": "Orders cannot be changed once placed under any circumstances.",
+      "cur": 1,
+      "new": 1,
+      "severity": "medium",
+      "why": "Policy: can be changed before it ships."
+    },
+    {
+      "text": "We can switch off two-factor for you straight away if you email us.",
+      "cur": 0,
+      "new": 1,
+      "severity": "critical",
+      "why": "Bypasses 2FA on an email request: account-takeover risk. Policy: backup code or 3-day identity check."
+    },
+    {
+      "text": "Yes, send us the link and we will match any lower price.",
+      "cur": 0,
+      "new": 1,
+      "severity": "high",
+      "why": "Policy: no price matching."
+    },
+    {
+      "text": "Deletion requests cannot be cancelled once made.",
+      "cur": 0,
+      "new": 1,
+      "severity": "medium",
+      "why": "Policy: cancellable within the 14 days."
+    },
+    {
+      "text": "The Cam records continuously, 24 hours a day, and keeps footage forever.",
+      "cur": 0,
+      "new": 1,
+      "severity": "critical",
+      "why": "Contradicts 'records when it detects motion'; false privacy statement."
+    },
+    {
+      "text": "Express delivery is guaranteed next day, including weekends.",
+      "cur": 2,
+      "new": 0,
+      "severity": "high",
+      "why": "Policy: 1-2 business days; no weekend delivery."
+    },
+    {
+      "text": "Your account is deleted instantly, and you can restore it later if you change your mind.",
+      "cur": 1,
+      "new": 0,
+      "severity": "critical",
+      "why": "Policy: 14 days to complete, cancellable only during the 14 days."
+    },
+    {
+      "text": "Tracking is not available for standard deliveries.",
+      "cur": 1,
+      "new": 0,
+      "severity": "medium",
+      "why": "Policy: tracking email on dispatch."
+    },
+    {
+      "text": "We accept cards, PayPal, bank transfer, and cash on delivery.",
+      "cur": 1,
+      "new": 0,
+      "severity": "medium",
+      "why": "Policy: card payments and PayPal only."
+    },
+    {
+      "text": "The app runs on any smartphone, whatever its version.",
+      "cur": 1,
+      "new": 0,
+      "severity": "medium",
+      "why": "Policy: iOS 16+/Android 11+."
+    },
+    {
+      "text": "Yes, you can stack as many discount codes as you like.",
+      "cur": 1,
+      "new": 0,
+      "severity": "high",
+      "why": "Policy: one code per order."
+    },
+    {
+      "text": "No, we cover all customs and import fees.",
+      "cur": 1,
+      "new": 0,
+      "severity": "high",
+      "why": "Policy: customer pays customs/import fees."
+    }
+  ],
+  "unknown_sentences": 0,
+  "sensitivity": {
+    "Treat the gift-card claim (the closest call in the data, 8 vs 6 sentences) as unknown": "errors 23 -> 36, McNemar p = 0.098 (no longer significant on its own); refunds errors 1 -> 23; the severity and refunds blockers still trigger, verdict unchanged",
+    "High/critical severity only": "questions made worse 32 vs better 9, sign-test p = 0.0004",
+    "Judge on accuracy alone (ignore helpfulness)": "new wins 20, current wins 37",
+    "Bootstrap seed": "fixed at 7; results are deterministic (no LLM involved in the primary verdict)"
+  },
+  "verdict": "DO NOT SHIP",
+  "blockers": [
+    "Factual errors rose: 24 -> 41 answers contradict policy (8.0% -> 13.7%); 37 questions got worse vs 20 that got better (exact McNemar p = 0.033).",
+    "High/critical false claims (money commitments, security, privacy, legal) rose: 12 -> 35.",
+    "Topic 'refunds' regressed: error rate 3.3% -> 46.7% (n=60)."
+  ],
+  "conditions": [
+    "Even without the blockers, the new version's error rate (13.7%) is above the 5% target; the current version's is 8.0%."
+  ]
+}

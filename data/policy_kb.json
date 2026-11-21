@@ -1,0 +1,181 @@
+{
+ "_comment": "Ground truth derived from the data, NOT supplied by the company. Every true statement appears 7-17x across the two versions; every false claim below contradicts the majority statement on the same topic. A policy owner must confirm this file before the verdict is relied on (scripts/derive_kb.py regenerates the candidate list).",
+ "filler": [
+  "Please reach out again if you have any other questions.",
+  "Let us know if there is anything else we can do for you.",
+  "Of course, let me explain.",
+  "Thanks for being a Lumora customer.",
+  "I hope that helps!",
+  "We are here if you need anything more.",
+  "Thanks for reaching out, and sorry for any confusion.",
+  "Thanks for getting in touch!",
+  "Happy to help with this.",
+  "Great question!"
+ ],
+ "false_claims": [
+  {
+   "text": "We can switch off two-factor for you straight away if you email us.",
+   "severity": "critical",
+   "kind": "security",
+   "why": "Bypasses 2FA on an email request: account-takeover risk. Policy: backup code or 3-day identity check."
+  },
+  {
+   "text": "The Cam records continuously, 24 hours a day, and keeps footage forever.",
+   "severity": "critical",
+   "kind": "privacy",
+   "why": "Contradicts 'records when it detects motion'; false privacy statement."
+  },
+  {
+   "text": "Your account is deleted instantly, and you can restore it later if you change your mind.",
+   "severity": "critical",
+   "kind": "privacy",
+   "why": "Policy: 14 days to complete, cancellable only during the 14 days."
+  },
+  {
+   "text": "We do not provide copies of customer data.",
+   "severity": "critical",
+   "kind": "legal",
+   "why": "Customers can request an export from the Privacy page; denying it is a data-rights/compliance problem."
+  },
+  {
+   "text": "Just type the new address in your profile and it changes immediately.",
+   "severity": "critical",
+   "kind": "security",
+   "why": "Policy requires confirmation from both old and new address; skipping it enables account takeover."
+  },
+  {
+   "text": "You can return an item for a full refund at any time, with no deadline.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: 30 days from delivery."
+  },
+  {
+   "text": "Your refund will be in your account instantly, as soon as you request the return.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: 5-7 business days after we receive the item."
+  },
+  {
+   "text": "Return shipping is always free.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: customer pays unless faulty/wrong item."
+  },
+  {
+   "text": "We send a prepaid label for every return.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: prepaid label only for faulty/wrong item."
+  },
+  {
+   "text": "Yes, since the device is faulty you are entitled to a full refund, however long ago you bought it.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: no refund after 30 days; warranty repair/replacement instead."
+  },
+  {
+   "text": "Yes, we always refund the original shipping fee along with the item price.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: not refunded unless faulty/wrong item."
+  },
+  {
+   "text": "Yes, unused gift cards can be refunded within 30 days like any other item.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Majority policy: gift cards cannot be refunded (8 vs 6 sentences). Closest call in the data; see sensitivity run."
+  },
+  {
+   "text": "No problem, activated licences can be refunded within 30 days.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: licences cannot be refunded once opened or activated."
+  },
+  {
+   "text": "Yes, send us the link and we will match any lower price.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: no price matching."
+  },
+  {
+   "text": "You can cancel an order at any point, even after it has shipped, and we will recall the parcel.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: cancel only before it ships."
+  },
+  {
+   "text": "Shipping is free on every order, with no minimum.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: free over $50."
+  },
+  {
+   "text": "Express delivery is guaranteed next day, including weekends.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: 1-2 business days; no weekend delivery."
+  },
+  {
+   "text": "Yes, you can stack as many discount codes as you like.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: one code per order."
+  },
+  {
+   "text": "No, we cover all customs and import fees.",
+   "severity": "high",
+   "kind": "over_promise",
+   "why": "Policy: customer pays customs/import fees."
+  },
+  {
+   "text": "We accept cards, PayPal, bank transfer, and cash on delivery.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: card payments and PayPal only."
+  },
+  {
+   "text": "All orders ship the same day they are placed.",
+   "severity": "medium",
+   "kind": "over_promise",
+   "why": "Policy: within 2 business days."
+  },
+  {
+   "text": "Orders cannot be changed once placed under any circumstances.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: can be changed before it ships."
+  },
+  {
+   "text": "Deletion requests cannot be cancelled once made.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: cancellable within the 14 days."
+  },
+  {
+   "text": "Tracking is not available for standard deliveries.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: tracking email on dispatch."
+  },
+  {
+   "text": "The app runs on any smartphone, whatever its version.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: iOS 16+/Android 11+."
+  },
+  {
+   "text": "Confirmation emails can take up to 3 days to arrive.",
+   "severity": "medium",
+   "kind": "wrong_fact",
+   "why": "Policy: normally within 15 minutes."
+  }
+ ],
+ "required_when": [
+  {
+   "question_regex": "not updated for (\\d+) days",
+   "min_value": 7,
+   "must_contain": "7 business days after shipping",
+   "why": "After 7+ days without an update the customer must be told how to escalate."
+  }
+ ]
+}

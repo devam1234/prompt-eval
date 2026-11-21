@@ -1,0 +1,2 @@
+pytest
+anthropic>=0.40   # only for the optional --llm-check

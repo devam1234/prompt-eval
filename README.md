@@ -6,10 +6,22 @@ prompt, and the extra errors are almost all **refund promises**: 2 wrong answers
 questions. Outside refunds the new prompt is actually *better* (13 errors vs 22), so the fix is targeted.
 Full evidence: [`results/report.md`](results/report.md). Per-question labels: [`results/verdicts.csv`](results/verdicts.csv).
 
+## Run the web app (backend + frontend)
+```bash
+python -m evalkit.server          # no installs needed; opens http://127.0.0.1:8000
+```
+- **Result** tab: verdict, headline numbers, errors by topic, the false claims the new prompt makes, recommendation.
+- **Questions** tab: all 300 questions, filter by topic / winner / false claims, expand one to see both answers with each sentence marked (red = contradicts policy, grey = filler, amber = not in policy table). Download `verdicts.csv`.
+- **Check an answer** tab: paste any question + answer and see which sentences break policy.
+- **Use your own data** tab: upload a CSV (`id, topic, question, answer_current, answer_new`) and the whole evaluation re-runs.
+
+Backend: `evalkit/server.py` (Python standard library only, JSON API: `/api/summary`, `/api/questions`, `/api/check`, `/api/evaluate`, `/api/verdicts.csv`). Frontend: `web/index.html` (one file, no build step, works offline).
+
+## Command line (same engine, for CI)
 ```bash
 pip install pytest
 python -m evalkit.run --data data/questions.csv     # writes results/, exits 1 on DO NOT SHIP
-pytest -q                                           # 7 tests
+pytest -q                                           # 8 tests
 ```
 Outputs: `results/report.md` (short report ending in the recommendation), `verdicts.csv` (`id,better` with
 current / new / tie, as the brief asks), `per_question.csv` (reason + the specific false claims per answer), `summary.json`.
@@ -56,7 +68,8 @@ test non-significant (p = 0.098) but the severity and refunds blockers still tri
 
 ## Layout
 ```
-evalkit/  data.py kb.py score.py stats.py decide.py report.py run.py judge.py(optional)
+evalkit/  data.py kb.py score.py stats.py decide.py report.py pipeline.py run.py server.py judge.py(optional)
+web/      index.html (frontend)
 data/     questions.csv (provided)  policy_kb.json (derived ground truth)  DATA_README.txt
 scripts/  derive_kb.py     tests/  test_core.py     config.json     .github/workflows/eval.yml     results/
 ```

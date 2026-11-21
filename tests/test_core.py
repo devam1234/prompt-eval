@@ -41,3 +41,11 @@ def test_end_to_end_blocks_on_real_data(tmp_path):
     assert p.returncode == 1 and "DO NOT SHIP" in p.stdout
     v = list(csv.DictReader(open(tmp_path / "verdicts.csv")))
     assert len(v) == 300 and {x["better"] for x in v} <= {"current", "new", "tie"}
+
+def test_server_check_and_state():
+    from evalkit import server
+    cfg = json.load(open("config.json"))
+    server.build_state(ROWS, "data/policy_kb.json", cfg)
+    assert len(server.STATE["questions"]) == 300 and server.STATE["S"]["verdict"] == "DO NOT SHIP"
+    d = server.check_answer("Can I return it?", "Great question! You can return an item for a full refund at any time, with no deadline.")
+    assert d["severity"] == 2 and [s["k"] for s in d["sentences"]] == ["filler", "false"]

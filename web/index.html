@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prompt check</title>
+<style>
+:root{--paper:#f6f7f9;--card:#fff;--ink:#1b2433;--mute:#5d6778;--line:#dde1e8;--red:#c62f2f;--redbg:#fbe9e9;--green:#23724f;--greenbg:#e4f3ec;--blue:#2b59c3;--amber:#9a6b00;--amberbg:#fdf3dc;--fill:#8b94a5}
+@media (prefers-color-scheme:dark){:root{--paper:#141a24;--card:#1c2431;--ink:#e8ecf3;--mute:#9aa5b8;--line:#2d384a;--red:#ff7b7b;--redbg:#3a2226;--green:#6fd1a3;--greenbg:#1d3429;--blue:#8fb0ff;--amber:#f0c25a;--amberbg:#372d14;--fill:#6f7a8f}}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:24px 20px 64px}
+h1{font:600 1.5rem Georgia,serif;margin:0}h2{font:600 1.15rem Georgia,serif;margin:32px 0 10px}
+nav{display:flex;gap:4px;margin:16px 0 8px;border-bottom:1px solid var(--line)}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;font:inherit;color:var(--mute);cursor:pointer}
+nav button[aria-selected=true]{color:var(--ink);border-color:var(--blue);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.verdict{border-left:6px solid var(--red);background:var(--card);padding:16px 20px;margin:20px 0;border-radius:4px}
+.verdict.ok{border-color:var(--green)}.verdict b{font:600 1.7rem Georgia,serif;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.card .big{font:600 1.6rem Georgia,serif}.card small{color:var(--mute);display:block}
+.pair{display:flex;gap:18px;align-items:baseline}.cur{color:var(--fill)}.new{color:var(--red)}
+.bar{height:12px;border-radius:2px;margin:3px 0}.bar.c{background:var(--fill)}.bar.n{background:var(--blue)}.bar.n.bad{background:var(--red)}
+.row{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;margin:10px 0}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:.92rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mute);font-weight:600}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.8rem;border:1px solid var(--line)}
+.critical{color:var(--red);border-color:var(--red)}.high{color:var(--amber);border-color:var(--amber)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+input,select,textarea{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink)}
+textarea{width:100%;min-height:90px}button.go{background:var(--blue);color:#fff;border:0;border-radius:4px;padding:8px 16px;font:inherit;cursor:pointer}
+details{background:var(--card);border:1px solid var(--line);border-radius:6px;margin:6px 0}summary{padding:10px 14px;cursor:pointer;display:flex;gap:10px;align-items:baseline}
+summary .q{flex:1}.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:4px 16px 16px}@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.ans{font:1rem/1.65 Georgia,serif}.ans h4{font:600 .9rem system-ui;margin:0 0 6px;color:var(--mute)}
+.s-filler{color:var(--fill)}.s-false{background:var(--redbg);text-decoration:underline wavy var(--red);text-underline-offset:3px;border-radius:2px}
+.s-unknown{background:var(--amberbg)}.s-true{color:inherit}
+.legend span{margin-right:14px;font-size:.88rem}.w-new{color:var(--blue);font-weight:600}.w-current{color:var(--mute);font-weight:600}.w-tie{color:var(--mute)}
+.err{color:var(--red)}.hidden{display:none}.note{color:var(--mute);font-size:.92rem}
+</style></head><body><main>
+<h1>Prompt check</h1><p class="note" id="sub"></p>
+<nav role="tablist"><button role="tab" data-t="over" aria-selected="true">Result</button><button role="tab" data-t="qs" aria-selected="false">Questions</button>
+<button role="tab" data-t="chk" aria-selected="false">Check an answer</button><button role="tab" data-t="up" aria-selected="false">Use your own data</button></nav>
+
+<section id="over"></section>
+
+<section id="qs" class="hidden">
+ <div class="legend"><span class="s-false">contradicts policy</span><span class="s-filler">stock filler</span><span class="s-unknown">not in policy table</span><span>verified</span></div>
+ <div class="filters"><select id="fTopic"><option value="">All topics</option></select>
+ <select id="fWin"><option value="">Any winner</option><option value="new">New wins</option><option value="current">Current wins</option><option value="tie">Tie</option></select>
+ <select id="fErr"><option value="">Any accuracy</option><option value="new">New has a false claim</option><option value="cur">Current has a false claim</option></select>
+ <input id="fText" placeholder="Search questions" aria-label="Search questions"><a id="dl" href="/api/verdicts.csv" download="verdicts.csv">Download verdicts.csv</a></div>
+ <p class="note" id="count"></p><div id="list"></div>
+</section>
+
+<section id="chk" class="hidden">
+ <p>Paste a customer question and an answer. Each sentence is checked against the policy table.</p>
+ <p><textarea id="cq" placeholder="Customer question, e.g. Can I return my Lumora Hub? I bought it 15 days ago."></textarea></p>
+ <p><textarea id="ca" placeholder="Answer to check"></textarea></p>
+ <p><button class="go" id="cgo">Check answer</button></p><div id="cout" class="ans"></div>
+</section>
+
+<section id="up" class="hidden">
+ <p>Upload a CSV with the columns <code>id, topic, question, answer_current, answer_new</code>. The whole evaluation re-runs and the Result and Questions tabs update. Policy table stays the same, so sentences it has never seen show as “not in policy table”.</p>
+ <p><input type="file" id="file" accept=".csv"> <button class="go" id="ugo">Run evaluation</button></p><p id="uout" class="note"></p>
+</section>
+</main>
+<script>
+const $=s=>document.querySelector(s),pct=x=>(x*100).toFixed(1)+"%";
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let S,Q=[];
+const sent=a=>a.sentences.map(s=>`<span class="s-${s.k}" ${s.why?`title="${esc(s.sev+": "+s.why)}"`:""}>${esc(s.t)}</span>`).join(" ")+(a.missing.length?`<br><span class="err">Missing: ${esc(a.missing.join(" "))}</span>`:"");
+
+async function load(){
+ [S,Q]=await Promise.all([fetch("/api/summary").then(r=>r.json()),fetch("/api/questions").then(r=>r.json())]);
+ $("#sub").textContent=`${S.n} customer questions, current prompt against new prompt, checked against company policy.`;
+ over();topics();list();
+}
+function over(){
+ const a=S.accuracy,bad=S.verdict==="DO NOT SHIP",mx=Math.max(...Object.values(S.topics).map(t=>Math.max(t.cur_rate,t.new_rate)),.01);
+ $("#over").innerHTML=`<div class="verdict ${bad?"":"ok"}"><b>${esc(S.verdict.charAt(0)+S.verdict.slice(1).toLowerCase())}</b>
+  ${esc(S.blockers.length?S.blockers[0]:"No blocking problems found.")}</div>
+ <div class="grid">
+  <div class="card"><small>Answers that contradict policy</small><div class="pair"><span class="big cur">${pct(a.cur_rate)}</span><span class="big new">${pct(a.new_rate)}</span></div><small>current → new (${a.cur_wrong} vs ${a.new_wrong} answers)</small></div>
+  <div class="card"><small>High or critical false claims</small><div class="pair"><span class="big cur">${S.severe.cur}</span><span class="big new">${S.severe.new}</span></div><small>money, security, privacy, legal</small></div>
+  <div class="card"><small>Head-to-head winner</small><div class="pair"><span class="big cur">${S.wins.current}</span><span class="big" style="color:var(--blue)">${S.wins.new}</span></div><small>current vs new (${S.wins.tie} ties)</small></div>
+  <div class="card"><small>Average length</small><div class="pair"><span class="big cur">${S.length.cur.toFixed(0)}</span><span class="big">${S.length.new.toFixed(0)}</span></div><small>words; ${pct(S.length.filler_share)} of new text is stock filler</small></div></div>
+ <h2>Where the errors are</h2><p class="note">Grey is the current prompt, blue is the new one (red where it is worse by 10 points or more).</p><div id="tp"></div>
+ <h2>What the new prompt gets wrong</h2><table><tr><th>Claim</th><th>Severity</th><th>New</th><th>Current</th><th>Actual policy</th></tr>
+ ${S.claims.slice(0,12).map(c=>`<tr><td>${esc(c.text)}</td><td><span class="tag ${c.severity}">${c.severity}</span></td><td>${c.new}</td><td>${c.cur}</td><td>${esc(c.why)}</td></tr>`).join("")}</table>
+ <h2>Recommendation</h2><div class="card"><b>${esc(S.verdict)}</b><ul>${S.blockers.map(b=>`<li>${esc(b)}</li>`).join("")}${S.conditions.map(b=>`<li>${esc(b)}</li>`).join("")}</ul>
+ <p class="note">Fix the over-generous refund instructions, regenerate the answers, and run the check again. Outside refunds the new prompt makes fewer errors than the current one.</p></div>`;
+ $("#tp").innerHTML=Object.entries(S.topics).sort((x,y)=>(y[1].new_rate-y[1].cur_rate)-(x[1].new_rate-x[1].cur_rate)).map(([t,d])=>
+  `<div class="row"><b>${esc(t)}</b><div><div class="bar c" style="width:${d.cur_rate/mx*100}%"></div><div class="bar n ${d.new_rate-d.cur_rate>=.1?"bad":""}" style="width:${d.new_rate/mx*100}%"></div></div><span class="note">${d.cur_wrong} → ${d.new_wrong} of ${d.n}</span></div>`).join("");
+}
+function topics(){const s=$("#fTopic");s.length=1;[...new Set(Q.map(q=>q.topic))].sort().forEach(t=>s.add(new Option(t,t)))}
+function list(){
+ const t=$("#fTopic").value,w=$("#fWin").value,e=$("#fErr").value,x=$("#fText").value.toLowerCase();
+ const f=Q.filter(q=>(!t||q.topic===t)&&(!w||q.better===w)&&(!e||(e==="new"?q.new.sev>0:q.cur.sev>0))&&(!x||q.question.toLowerCase().includes(x)));
+ $("#count").textContent=`${f.length} of ${Q.length} questions`;
+ $("#list").innerHTML=f.slice(0,100).map(q=>`<details><summary><b>${esc(q.id)}</b><span class="q">${esc(q.question)}</span><span class="w-${q.better}">${q.better==="tie"?"tie":q.better+" wins"}</span></summary>
+  <div class="cols"><div class="ans"><h4>Current (${q.cur.words} words)</h4>${sent(q.cur)}</div><div class="ans"><h4>New (${q.new.words} words)</h4>${sent(q.new)}</div></div></details>`).join("")+(f.length>100?`<p class="note">Showing the first 100. Narrow the filters to see the rest.</p>`:"");
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+ ["over","qs","chk","up"].forEach(id=>$("#"+id).classList.toggle("hidden",id!==b.dataset.t))});
+["fTopic","fWin","fErr"].forEach(i=>$("#"+i).onchange=list);$("#fText").oninput=list;
+$("#cgo").onclick=async()=>{const r=await fetch("/api/check",{method:"POST",body:JSON.stringify({question:$("#cq").value,answer:$("#ca").value})});const d=await r.json();
+ $("#cout").innerHTML=d.error?`<span class="err">${esc(d.error)}</span>`:`<p>${sent(d)}</p><p class="note">${d.sentences.filter(s=>s.k==="false").length} sentence(s) contradict policy. ${d.filler_words} filler words out of ${d.words}.</p>`};
+$("#ugo").onclick=async()=>{const f=$("#file").files[0];if(!f){$("#uout").textContent="Choose a CSV file first.";return}
+ const r=await fetch("/api/evaluate",{method:"POST",body:await f.text()});const d=await r.json();
+ if(d.error){$("#uout").innerHTML=`<span class="err">${esc(d.error)}</span>`;return}$("#uout").textContent=`Done: ${d.n} questions, verdict ${d.verdict}.`;await load()};
+load();
+</script></body></html>

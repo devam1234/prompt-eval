@@ -1,5 +1,5 @@
 """Load the question set (.csv / .jsonl / .json). Columns: id, topic (optional), question, answer_current, answer_new."""
-import csv, json
+import csv, io, json
 
 ALIASES = {
     "id": ["id", "qid", "question_id"],
@@ -26,4 +26,11 @@ def load(path):
         raw = list(csv.DictReader(open(path, encoding="utf-8-sig")))
     return [{"id": _pick(r, "id") if any(a in r for a in ALIASES["id"]) else str(i),
              "topic": _pick(r, "topic", False), "question": _pick(r, "question").strip(),
+             "old": _pick(r, "old").strip(), "new": _pick(r, "new").strip()} for i, r in enumerate(raw)]
+
+def load_text(text):
+    """Parse uploaded CSV text with the same column rules as load()."""
+    raw = list(csv.DictReader(io.StringIO(text.lstrip("\ufeff"))))
+    if not raw: raise ValueError("The file has no rows.")
+    return [{"id": str(r.get("id", i)), "topic": _pick(r, "topic", False), "question": _pick(r, "question").strip(),
              "old": _pick(r, "old").strip(), "new": _pick(r, "new").strip()} for i, r in enumerate(raw)]

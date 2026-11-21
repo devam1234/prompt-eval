@@ -33,10 +33,13 @@ class KB:
 
     def analyse(self, question, answer, ignore_false=()):
         """Returns facts about one answer. ignore_false: claim texts to treat as unknown (sensitivity runs)."""
-        out = {"true": 0, "false": [], "unknown": [], "filler_words": 0, "words": len(answer.split()), "missing": []}
+        out = {"true": 0, "false": [], "unknown": [], "filler_words": 0, "words": len(answer.split()), "missing": [], "sentences": []}
         for s in split_sentences(answer):
             c = self.classify(s)
             if c == "false" and s in ignore_false: c = "unknown_ignored"
+            item = {"t": s, "k": c}
+            if c == "false": item.update(sev=self.false[s]["severity"], why=self.false[s]["why"])
+            out["sentences"].append(item)
             if c == "true": out["true"] += 1
             elif c == "false": out["false"].append(self.false[s])
             elif c == "unknown": out["unknown"].append(s)
